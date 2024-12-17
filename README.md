@@ -13,4 +13,4 @@ This project is a Flask-based Landing API with a simple web UI for submitting da
 1. Clone this repository:
    ```bash
    git clone <repository_url>
-   cd landing-api
+   cd Harvester-init
