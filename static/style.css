@@ -1,21 +1,20 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+    background-color: #0d0d0d; /* Dark background */
+    color: #00ff00; /* Bright green text */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for cyberpunk feel */
 }
 
 .container {
-    max-width: 800px;
-    margin: 20px auto;
-    background: white;
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid #00ff00; /* Green border */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); /* Glow effect */
 }
 
 h1, h2 {
-    color: #333;
+    text-align: center;
 }
 
 form {
@@ -24,32 +23,30 @@ form {
 }
 
 label {
-    margin: 10px 0 5px;
-    font-weight: bold;
+    margin-top: 10px;
 }
 
-input, textarea, button {
+input[type="text"],
+input[type="email"],
+textarea {
     padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    margin-top: 5px;
+    border: 1px solid #00ff00; /* Green border for inputs */
+    border-radius: 5px;
+    background-color: #1a1a1a; /* Dark input background */
+    color: #00ff00; /* Green text in inputs */
 }
 
 button {
-    background-color: #007BFF;
-    color: white;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #00ff00; /* Green button */
+    color: #000000; /* Black text on button */
     border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
-}
-
-pre {
-    background: #eaeaea;
-    padding: 10px;
-    border-radius: 5px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    background-color: #005700; /* Darker green on hover */
 }
