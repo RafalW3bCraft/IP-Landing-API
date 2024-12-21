@@ -1,14 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 import requests
-import os
 
-app = Flask(__name__, template_folder='.')  # Set the root directory as the template folder
+app = Flask(__name__)
 
-API_URL = "http://datapost.org/post"  # Example URL for posting data
+API_URL = "http://httpbin.org/post"  # Example URL for posting data
 
 @app.route('/')
 def home():
-    return render_template('index.html')  # index.html should now be in the root directory
+    return render_template('index.html')
 
 @app.route('/api/get', methods=['GET'])
 def get_api():
