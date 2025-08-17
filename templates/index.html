@@ -3,20 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing API</title>
+    <title>IP-Landing-API</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Landing API</h1>
+        <h1>IP-Landing-API</h1>
+        
+        <div style="background-color: #1a1a1a; border: 1px solid #00ff00; padding: 10px; margin-bottom: 20px; font-size: 0.9em;">
+            <strong>Privacy Notice:</strong> We collect your IP address and location data to improve our services. 
+            By using this site, you consent to this data collection. 
+            <a href="/admin/visitors" style="color: #00ff00;">View Analytics Dashboard</a>
+        </div>
+        
+        {% if errors %}
+        <div style="background-color: #1a0000; border: 1px solid #ff0000; padding: 10px; margin-bottom: 20px; color: #ff0000;">
+            <strong>Please fix the following errors:</strong>
+            <ul style="margin: 5px 0 0 20px;">
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if success_message %}
+        <div style="background-color: #001a00; border: 1px solid #00ff00; padding: 10px; margin-bottom: 20px; color: #00ff00;">
+            <strong>✓ {{ success_message }}</strong>
+        </div>
+        {% endif %}
+
         <h2>Submit Your Details</h2>
         <form method="POST" action="/submit">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" 
+                   value="{{ form_data.name if form_data else '' }}" 
+                   required maxlength="100">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" 
+                   value="{{ form_data.email if form_data else '' }}" 
+                   required maxlength="255">
             <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="4"></textarea>
+            <textarea id="message" name="message" rows="4" 
+                      maxlength="1000">{{ form_data.message if form_data else '' }}</textarea>
             <button type="submit">Submit</button>
         </form>
 

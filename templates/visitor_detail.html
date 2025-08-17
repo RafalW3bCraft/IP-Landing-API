@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP-Landing-API - Visitor Details - {{ visitor.ip_address }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .detail-card {
+            background-color: #1a1a1a;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .detail-card h3 {
+            margin-top: 0;
+            color: #00ff00;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+        .detail-item {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #00ff00;
+            min-width: 120px;
+        }
+        .detail-value {
+            color: #ffffff;
+            word-break: break-all;
+        }
+        .map-container {
+            height: 300px;
+            background-color: #1a1a1a;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff00;
+            margin: 20px 0;
+        }
+        .back-link {
+            color: #00ff00;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .json-data {
+            background-color: #0d0d0d;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/admin/visitors" class="back-link">← Back to Visitor List</a>
+        
+        <h1>Visitor Details: {{ visitor.ip_address }}</h1>
+        <p><strong>Visit Time:</strong> {{ visitor.timestamp.strftime('%Y-%m-%d %H:%M:%S UTC') if visitor.timestamp else 'Unknown' }}</p>
+
+        <div class="detail-grid">
+            <!-- IP and Network Information -->
+            <div class="detail-card">
+                <h3>🌐 Network Information</h3>
+                <div class="detail-item">
+                    <span class="detail-label">IP Address:</span>
+                    <span class="detail-value">{{ visitor.ip_address or 'Unknown' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">ASN:</span>
+                    <span class="detail-value">{{ visitor.asn or 'Unknown' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Organization:</span>
+                    <span class="detail-value">{{ visitor.org or 'Unknown' }}</span>
+                </div>
+            </div>
+
+            <!-- Location Information -->
+            <div class="detail-card">
+                <h3>📍 Location Details</h3>
+                <div class="detail-item">
+                    <span class="detail-label">Country:</span>
+                    <span class="detail-value">
+                        {{ visitor.country or 'Unknown' }}
+                        {% if visitor.country_code %} ({{ visitor.country_code }}){% endif %}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Region:</span>
+                    <span class="detail-value">{{ visitor.region or 'Unknown' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">City:</span>
+                    <span class="detail-value">{{ visitor.city or 'Unknown' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Postal Code:</span>
+                    <span class="detail-value">{{ visitor.postal_code or 'Unknown' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Coordinates:</span>
+                    <span class="detail-value">
+                        {% if visitor.latitude and visitor.longitude %}
+                            {{ "%.6f"|format(visitor.latitude) }}, {{ "%.6f"|format(visitor.longitude) }}
+                        {% else %}
+                            Unknown
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Timezone:</span>
+                    <span class="detail-value">{{ visitor.timezone or 'Unknown' }}</span>
+                </div>
+            </div>
+
+            <!-- Regional Information -->
+            <div class="detail-card">
+                <h3>🌏 Regional Info</h3>
+                <div class="detail-item">
+                    <span class="detail-label">Currency:</span>
+                    <span class="detail-value">{{ visitor.currency or 'Unknown' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Calling Code:</span>
+                    <span class="detail-value">{{ visitor.calling_code or 'Unknown' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Languages:</span>
+                    <span class="detail-value">{{ visitor.languages or 'Unknown' }}</span>
+                </div>
+            </div>
+
+            <!-- Browser Information -->
+            <div class="detail-card">
+                <h3>🖥️ Browser Details</h3>
+                <div class="detail-item">
+                    <span class="detail-label">User Agent:</span>
+                    <span class="detail-value">{{ visitor.user_agent or 'Unknown' }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Placeholder -->
+        {% if visitor.latitude and visitor.longitude %}
+        <div class="detail-card">
+            <h3>🗺️ Location on Map</h3>
+            <div class="map-container">
+                <div>
+                    <p>Coordinates: {{ "%.6f"|format(visitor.latitude) }}, {{ "%.6f"|format(visitor.longitude) }}</p>
+                    <p><small>Map integration can be added with Google Maps, OpenStreetMap, or similar service</small></p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Form Data -->
+        {% if visitor.form_data %}
+        <div class="detail-card">
+            <h3>📝 Form Submission Data</h3>
+            <div class="json-data">{{ visitor.form_data | tojson(indent=2) }}</div>
+        </div>
+        {% else %}
+        <div class="detail-card">
+            <h3>📝 Form Submission Data</h3>
+            <p>No form data submitted by this visitor.</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
